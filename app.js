@@ -3,30 +3,46 @@ function onReady(){
   const addToDoForm = document.getElementById('addToDoForm');
   const newToDoText = document.getElementById('newToDoText');
   const toDoList = document.getElementById('toDoList');
+
   addToDoForm.addEventListener('submit', event => {
     event.preventDefault();
 
-    // get the text
+   // create the To-Do list elements
     let title = newToDoText.value;
-    // create a new li
     let newLi = document.createElement('li');
-    // create a new input
     let checkbox = document.createElement('input');
-    // set the input's type to checkbox
+    let deletebutton = document.createElement('button');
+
+     // modify elements
+    deletebutton.textContent = "Delete";
+    deletebutton.className = "delete";
     checkbox.type = "checkbox";
-    // set the title
+    checkbox.className = "check";
     newLi.textContent = title;
-    // attach the checkbox to the li
+    //newLi.className = "add";
+
+
+   // add the event listener to the delete button itself
+   // rather than the li so that you can still click/unclick
+   // the checkbox and not have to worry about listening to the
+   // checkbox (with a change event)
+    deletebutton.addEventListener('click', function (e) {
+      var parent = this.parentElement;
+      parent.removeChild(deletebutton);
+      parent.removeChild(checkbox);
+      toDoList.removeChild(parent);
+    });
+
+    // append elements
     newLi.appendChild(checkbox);
-    // attach the li to the ul
+    newLi.appendChild(deletebutton);
     toDoList.appendChild(newLi);
+
     //empty the input
     newToDoText.value = '';
+
   });
 }
-
-
-
 
 window.onload = function() {
   alert("The window has loaded!");
